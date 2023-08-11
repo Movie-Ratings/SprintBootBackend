@@ -20,10 +20,10 @@ public class UserController {
         this.userService = userService;
     }
     @PostMapping
-    public void insertUser(@RequestBody String username) {
-        User user = new User(username);
-        System.out.println("Inserting user " + user);
-        userService.insertUser(user);
+    public void insertUser(@RequestBody User user) {
+        User u = new User(user.getUsername());
+        System.out.println("Inserting user " + u);
+        userService.insertUser(u);
     }
 
     @GetMapping
