@@ -6,6 +6,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -57,5 +58,43 @@ public class Manager implements Serializable {
             shared = new Manager();
         }
         return shared;
+    }
+
+    /**
+     * Adds the specific user instance to the model.
+     * @param user
+     */
+    public void addUser(User user) {
+        users.put(user.getID(), user);
+    }
+
+    /**
+     * Creates a User object with the given username and inserts them into the model. Usernames are allowed to be repeated.
+     * @param username
+     */
+    public void addUser(String username) {
+        UUID id = UUID.randomUUID();
+        User user = new User(id, username);
+        users.put(id, user);
+    }
+
+    /**
+     * @param id an ID of a user
+     * @return the User associated with the given ID
+     */
+    public User getUser(UUID id) {
+        return users.get(id);
+    }
+
+    /**
+     * @return a List of all users in the model.
+     */
+    public List<User> getUsers() {
+        List<User> list = new ArrayList<>();
+        for(UUID key : users.keySet()) {
+            User user = users.get(key);
+            list.add(user);
+        }
+        return list;
     }
 }
