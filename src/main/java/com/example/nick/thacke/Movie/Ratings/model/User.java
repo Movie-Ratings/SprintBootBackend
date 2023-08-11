@@ -1,4 +1,6 @@
-package model;
+package com.example.nick.thacke.Movie.Ratings.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -26,7 +28,8 @@ public class User implements Serializable {
      */
     private List<Comment> comments;
 
-    public User(String username) {
+    public User(@JsonProperty String username) {
+        System.out.println("Inside User(String username)");
         this.id = UUID.randomUUID();
         this.username = username;
     }
@@ -37,7 +40,8 @@ public class User implements Serializable {
      * @param id
      * @param username
      */
-    public User(UUID id, String username) {
+    public User(@JsonProperty UUID id,
+                @JsonProperty String username) {
         this.id = id;
         this.username = username;
     }
@@ -54,5 +58,10 @@ public class User implements Serializable {
      */
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public String toString() {
+        return "(ID : " + id + " | Username : " + username + ")";
     }
 }

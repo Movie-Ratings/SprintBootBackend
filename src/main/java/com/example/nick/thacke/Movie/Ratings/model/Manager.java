@@ -1,8 +1,8 @@
-package model;
+package com.example.nick.thacke.Movie.Ratings.model;
 
-import data.Serializer;
+import com.example.nick.thacke.Movie.Ratings.data.Serializer;
 
-import java.io.Serial;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class Manager implements Serializable {
      */
     public static Manager getInstance() {
         if(shared == null) {
-            shared = new Manager();
+            new Manager();
         }
         return shared;
     }
@@ -66,6 +66,20 @@ public class Manager implements Serializable {
      */
     public void addUser(User user) {
         users.put(user.getID(), user);
+        save();
+    }
+
+    public void save() {
+        System.out.println("Saving manager to disk.");
+        System.out.println("Users : " + users);
+        System.out.println("Movies : " + movies);
+        try {
+            Serializer.save(shared);
+        }
+        catch(IOException e) {
+            System.out.println("An error occurred while trying to save to disk.");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -75,7 +89,7 @@ public class Manager implements Serializable {
     public void addUser(String username) {
         UUID id = UUID.randomUUID();
         User user = new User(id, username);
-        users.put(id, user);
+        addUser(user);
     }
 
     /**
@@ -96,5 +110,9 @@ public class Manager implements Serializable {
             list.add(user);
         }
         return list;
+    }
+
+    public String toString() {
+        return "Users : " + users + " Movies : " + movies;
     }
 }

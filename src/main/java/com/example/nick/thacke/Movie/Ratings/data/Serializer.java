@@ -1,16 +1,10 @@
-package data;
+package com.example.nick.thacke.Movie.Ratings.data;
 
-import model.Manager;
-import model.Movie;
-import model.User;
+import com.example.nick.thacke.Movie.Ratings.model.Manager;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class Serializer {
-    public static final int MOVIES = 0;
-    public static final int USERS = 1;
 
     /**
      * The directory which is used to store data.
