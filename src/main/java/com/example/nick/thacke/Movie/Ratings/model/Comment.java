@@ -1,6 +1,7 @@
 package com.example.nick.thacke.Movie.Ratings.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Comment implements Comparable<Comment>, Serializable {
 
@@ -18,6 +19,12 @@ public class Comment implements Comparable<Comment>, Serializable {
      * The actual comment that the user made.
      */
     private String comment;
+
+    /**
+     * The moveID that this comment was made under.
+     */
+    private UUID movieID;
+
 
     public Comment(User user, String comment) {
         this.user = user;

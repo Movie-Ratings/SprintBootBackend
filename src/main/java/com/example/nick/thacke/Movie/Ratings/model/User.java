@@ -19,6 +19,11 @@ public class User implements Serializable {
     private String username;
 
     /**
+     * The email of this user
+     */
+    private String email;
+
+    /**
      * This constructor creates a new User object and generates a random ID for the given user. This constructor should be used only when creating a fresh User.
      * @param username
      */
@@ -29,7 +34,6 @@ public class User implements Serializable {
     private List<Comment> comments;
 
     public User(@JsonProperty String username) {
-        System.out.println("Inside User(String username)");
         this.id = UUID.randomUUID();
         this.username = username;
     }

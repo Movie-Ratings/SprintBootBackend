@@ -28,7 +28,7 @@ public class Manager implements Serializable {
     /**
      * The users stored in the application.
      */
-    private HashMap<UUID, User> users;
+    private HashMap<String, User> users;
 
     /**
      * A private constructor which ensures that no external classes may instantiate their own instance of Manager.
@@ -64,15 +64,16 @@ public class Manager implements Serializable {
      * Adds the specific user instance to the model.
      * @param user
      */
-    public void addUser(User user) {
-        users.put(user.getID(), user);
+    public boolean addUser(User user) {
+        User value = users.putIfAbsent(user.getUsername(), user);
         save();
+        return value == null ? true : false;
     }
 
+    /**
+     * Saves the current instance of Manager to the disk. Future applications will load the saved instance.
+     */
     public void save() {
-        System.out.println("Saving manager to disk.");
-        System.out.println("Users : " + users);
-        System.out.println("Movies : " + movies);
         try {
             Serializer.save(shared);
         }
@@ -83,13 +84,14 @@ public class Manager implements Serializable {
     }
 
     /**
-     * Creates a User object with the given username and inserts them into the model. Usernames are allowed to be repeated.
-     * @param username
+     *
+     * @param username the username of a user to add to the database.
+     * @return true if the user was successfully added, or false otherwise
      */
-    public void addUser(String username) {
+    public boolean addUser(String username) {
         UUID id = UUID.randomUUID();
         User user = new User(id, username);
-        addUser(user);
+        return addUser(user);
     }
 
     /**
@@ -105,7 +107,7 @@ public class Manager implements Serializable {
      */
     public List<User> getUsers() {
         List<User> list = new ArrayList<>();
-        for(UUID key : users.keySet()) {
+        for(String key : users.keySet()) {
             User user = users.get(key);
             list.add(user);
         }
