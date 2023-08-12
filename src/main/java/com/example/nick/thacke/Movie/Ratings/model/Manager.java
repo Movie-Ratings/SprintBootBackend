@@ -114,6 +114,28 @@ public class Manager implements Serializable {
         return list;
     }
 
+    /**
+     * Adds the given Movie to the database.
+     * @param movie
+     */
+    public void addMovie(Movie movie) {
+        movies.put(movie.getID(), movie);
+        save();
+    }
+
+    /**
+     *
+     * @return a List of Movies in the database.
+     */
+    public List<Movie> getMovies() {
+        List<Movie> movies = new ArrayList<>();
+        for(UUID key : this.movies.keySet()) {
+            Movie movie = this.movies.get(key);
+            movies.add(movie);
+        }
+        return movies;
+    }
+
     public String toString() {
         return "Users : " + users + " Movies : " + movies;
     }
