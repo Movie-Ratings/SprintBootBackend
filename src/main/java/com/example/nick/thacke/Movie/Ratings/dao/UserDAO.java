@@ -15,8 +15,8 @@ public interface UserDAO {
     default void insertUser(String username) {
         manager.addUser(username);
     }
-    default User getUser(UUID id) {
-        return manager.getUser(id);
+    default User getUser(String username) {
+        return manager.getUser(username);
     }
     default List<User> getUsers() {
         return manager.getUsers();

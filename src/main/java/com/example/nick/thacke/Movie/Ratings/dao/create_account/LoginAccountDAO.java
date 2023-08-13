@@ -9,7 +9,7 @@ import com.example.nick.thacke.Movie.Ratings.model.User;
  */
 public interface LoginAccountDAO {
     /**
-     * The Manager reference which is used to perfrom operations on data.
+     * The Manager reference which is used to perform operations on data.
      */
     Manager manager = Manager.getInstance();
 
@@ -27,7 +27,7 @@ public interface LoginAccountDAO {
      * @return a status code indicating success or failure
      */
     default int login(User user) {
-        User u = manager.getUser(user.getID());
+        User u = manager.getUser(user.getUsername());
         return u == null ? UNSUCCESSFUL : OK;
     }
 }
