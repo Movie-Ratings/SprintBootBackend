@@ -4,10 +4,8 @@ import com.example.nick.thacke.Movie.Ratings.model.User;
 import com.example.nick.thacke.Movie.Ratings.service.create_account.LoginAccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @RequestMapping("api/login/account")
 @RestController
 public class LoginAccountController {
@@ -19,8 +17,9 @@ public class LoginAccountController {
     }
 
     @PostMapping
-    public ResponseEntity<String> login(@RequestBody User user) {
-        int result = loginAccountService.login(user);
+    public ResponseEntity<String> login(@RequestParam String username) {
+        System.out.println("Attempting to login as " + username);
+        int result = loginAccountService.login(new User(username));
         HttpStatus status = (result == LoginAccountService.OK) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(result == LoginAccountService.OK ? "Succesfully logged in" : "Username not found, cannot login");
     }
