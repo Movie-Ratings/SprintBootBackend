@@ -23,7 +23,7 @@ public class Manager implements Serializable {
     /**
      * The movies stored in the application.
      */
-    private HashMap<UUID, Movie> movies;
+    private HashMap<Integer, Movie> movies;
 
     /**
      * The users stored in the application.
@@ -129,7 +129,7 @@ public class Manager implements Serializable {
      */
     public List<Movie> getMovies() {
         List<Movie> movies = new ArrayList<>();
-        for(UUID key : this.movies.keySet()) {
+        for(Integer key : this.movies.keySet()) {
             Movie movie = this.movies.get(key);
             movies.add(movie);
         }
