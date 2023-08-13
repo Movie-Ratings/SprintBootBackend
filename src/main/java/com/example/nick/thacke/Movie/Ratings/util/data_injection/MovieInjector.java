@@ -41,11 +41,12 @@ public class MovieInjector {
                 .build();
 
         Response response = client.newCall(request).execute();
+//        System.out.println(response.body().string());
         parseMovieJSON(response.body().string());
 
     }
 
-    private void parseMovieJSON(String json) throws JsonProcessingException {
+    private void parseMovieJSON(String json) throws JsonProcessingException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         MovieData movieData = objectMapper.readValue(json, MovieData.class);
 
