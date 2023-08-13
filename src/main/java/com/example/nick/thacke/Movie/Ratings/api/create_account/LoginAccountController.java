@@ -19,9 +19,9 @@ public class LoginAccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> login(@RequestBody User user) {
+    public ResponseEntity<String> login(@RequestBody User user) {
         int result = loginAccountService.login(user);
         HttpStatus status = (result == LoginAccountService.OK) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(null);
+        return ResponseEntity.status(status).body(result == LoginAccountService.OK ? "Succesfully logged in" : "Username not found, cannot login");
     }
 }

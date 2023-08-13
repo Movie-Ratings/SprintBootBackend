@@ -28,7 +28,7 @@ public class CreateAccountController {
             user = new User(user.getUsername());
         }
         HttpStatus status = (createAccountService.createAccount(user)) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body("The username has already been taken.");
+        return ResponseEntity.status(status).body( status == HttpStatus.BAD_REQUEST ? "Username has already been taken" : "Successfully created account");
     }
 
 }

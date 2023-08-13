@@ -95,11 +95,11 @@ public class Manager implements Serializable {
     }
 
     /**
-     * @param id an ID of a user
+     * @param username username of a user
      * @return the User associated with the given ID
      */
-    public User getUser(UUID id) {
-        return users.get(id);
+    public User getUser(String username) {
+        return users.get(username);
     }
 
     /**
