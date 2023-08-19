@@ -1,6 +1,7 @@
 package com.example.nick.thacke.Movie.Ratings.model;
 
 import com.example.nick.thacke.Movie.Ratings.data.Serializer;
+import com.example.nick.thacke.Movie.Ratings.util.data_injection.MovieInjector;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,9 +22,13 @@ public class Manager implements Serializable {
     private static Manager shared;
 
     /**
-     * The movies stored in the application.
+     * The movies stored in the application. Every movie, independent of which category, is contained within this object.
      */
     private HashMap<Integer, Movie> movies;
+    /**
+     * The most popular Movies, stored in decreasing popularity.
+     */
+    private List<Movie> popularMovies;
 
     /**
      * The users stored in the application.
@@ -40,6 +45,7 @@ public class Manager implements Serializable {
         catch(Exception e) {
             this.movies = new HashMap<>();
             this.users = new HashMap<>();
+            this.popularMovies = new ArrayList<>();
             shared = this;
         }
     }
@@ -115,12 +121,23 @@ public class Manager implements Serializable {
     }
 
     /**
-     * Adds the given Movie to the database.
+     * Adds the given Movie to the HashMap of known movies in the database.
      * @param movie
      */
     public void addMovie(Movie movie) {
         movies.put(movie.getID(), movie);
         save();
+    }
+
+    /**
+     * Inserts the given List of Movies as this instance's reference of Popular Movies
+     * @param movies
+     */
+    public void insertPopularMovies(List<Movie> movies) {
+        for(Movie movie : movies) {
+            addMovie(movie);
+        }
+        this.popularMovies = movies;
     }
 
     /**
@@ -134,6 +151,15 @@ public class Manager implements Serializable {
             movies.add(movie);
         }
         return movies;
+    }
+
+    public List<Movie> getPopularMovies() {
+        return popularMovies;
+    }
+
+    public boolean injectPopularMovies() {
+        MovieInjector injector = new MovieInjector();
+        return injector.injectPopularMovies();
     }
 
     public String toString() {

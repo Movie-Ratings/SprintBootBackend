@@ -15,14 +15,17 @@ public class MovieInjector {
 
     private Manager manager = Manager.getInstance();
 
+    public enum Purpose {
+        POPULAR, GENRE
+    }
 
     /**
-     * Injects movies into the database.
-     * @return true if successful, false if an error occurred.
+     * Injects the most popular movies into the database. Previously popular movies will be overwritten by this method.
+     * @return
      */
-    public boolean inject() {
+    public boolean injectPopularMovies() {
         try {
-            injectMovies();
+            injectPopular();
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -30,7 +33,12 @@ public class MovieInjector {
         }
         return true;
     }
-    private void injectMovies() throws IOException, JsonProcessingException {
+
+    /**
+     * Injects popular movies into the database by invoking an API request to The Movie Database. This will inject the first page results into our database.
+     * @throws IOException
+     */
+    private void injectPopular() throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -41,19 +49,35 @@ public class MovieInjector {
                 .build();
 
         Response response = client.newCall(request).execute();
-//        System.out.println(response.body().string());
-        parseMovieJSON(response.body().string());
-
+        parseMovieJSON(response.body().string(), Purpose.POPULAR);
     }
 
-    private void parseMovieJSON(String json) throws JsonProcessingException, IOException {
+    /**
+     * Parses the given json string as a List of movies. Depending upon the given reason, this method inserts the JSON into the manager.
+     *
+     * @param json
+     * @throws JsonProcessingException
+     * @throws IOException
+     * @throws IllegalArgumentException when the purpose is not a valid purpose
+     */
+    private void parseMovieJSON(String json, Purpose purpose) throws JsonProcessingException, IOException, IllegalArgumentException {
         ObjectMapper objectMapper = new ObjectMapper();
         MovieData movieData = objectMapper.readValue(json, MovieData.class);
 
         List<Movie> movies = movieData.getResults();
-        for (Movie movie : movies) {
-            manager.addMovie(movie);
+
+        switch(purpose) {
+            case POPULAR: {
+                insertPopular(movies);
+            }
+            case GENRE: {
+//                insertGenre(movies);
+            }
         }
+    }
+
+    private void insertPopular(List<Movie> movies) {
+        manager.insertPopularMovies(movies);
     }
 
 }
