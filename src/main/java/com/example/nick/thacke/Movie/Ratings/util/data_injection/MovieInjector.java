@@ -77,7 +77,7 @@ public class MovieInjector {
     }
 
     private void insertPopular(List<Movie> movies) {
-        manager.
+        manager.insertPopularMovies(movies);
     }
 
 }
