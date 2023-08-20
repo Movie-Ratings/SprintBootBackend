@@ -36,6 +36,13 @@ public class Manager implements Serializable {
     private HashMap<String, User> users;
 
     /**
+     * The List of Movies that a user intends to watch -- i.e. this is the "My List" section on the iOS app.
+     *
+     * The internal List<Movie> stores the movies most recent - least recent order. In other words, the most recently added item appears at index 0
+     */
+    private HashMap<User, List<Movie>> userList;
+
+    /**
      * A private constructor which ensures that no external classes may instantiate their own instance of Manager.
      */
     private Manager() {
@@ -46,6 +53,7 @@ public class Manager implements Serializable {
             this.movies = new HashMap<>();
             this.users = new HashMap<>();
             this.popularMovies = new ArrayList<>();
+            this.userList = new HashMap<>();
             shared = this;
         }
     }
@@ -138,6 +146,36 @@ public class Manager implements Serializable {
             addMovie(movie);
         }
         this.popularMovies = movies;
+    }
+
+    /**
+     * Appends the given Movie to the given user's List of Movies to watch.
+     * @param username the username of the given user
+     * @param movie a movie to add to the list
+     * @return true if the movie was successfully added, otherwise returns false (the movie was already in the list)
+     */
+    public boolean addToMyList(String username, Movie movie) {
+        User user = users.get(username);
+        List<Movie> myList = userList.get(user);
+        if(myList == null) {
+            myList = new ArrayList<>();
+        }
+        if(myList.contains(movie)) {
+            return false;
+        }
+        myList.add(0, movie);
+        userList.put(user, myList);
+        save();
+        return true;
+    }
+
+    /**
+     * @param username a username of a user
+     * @return the "MyList" of movies belonging to the user with the specified username
+     */
+    public List<Movie> getMylist(String username) {
+        User user = users.get(username);
+        return userList.get(user);
     }
 
     /**
