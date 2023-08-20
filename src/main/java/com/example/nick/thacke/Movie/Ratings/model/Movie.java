@@ -99,4 +99,20 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
+    /**
+     * @param other some other object to compare against
+     * @return true if this object is equal to the other object (they are both type Movie; they have the same ID), otherwise returns false
+     */
+    public boolean equals(Object other) {
+        if(other == null || other.getClass() != this.getClass()) {
+            return false;
+        }
+        Movie o = (Movie)(other);
+        return this.id == o.id;
+    }
+
+    public String toString() {
+        return this.title;
+    }
+
 }
